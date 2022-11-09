@@ -2,7 +2,7 @@
  * @file NodeImageBase.hpp
  * @author moth (QianMoth@qq.com)
  * @brief 图像基础节点
- * @version 0.1
+ * @version 0.0.1
  * @date 2022-09-23
  *
  * @copyright Copyright (c) 2022
@@ -23,11 +23,6 @@ namespace QtNodes
     public:
         TestNode();
 
-        static std::unique_ptr<BaseNode> Create()
-        {
-            return std::make_unique<TestNode>();
-        }
-
     public Q_SLOTS:
         void onTestButtonClick();
 
@@ -36,6 +31,11 @@ namespace QtNodes
         int process(const Parameter &param = Parameter()) override;
 
     private:
+        /**
+         * @brief 节点名称(唯一)
+         *
+         * @return const QString
+         */
         const QString Name() const override { return QString("NodeDemo"); }
         std::shared_ptr<NodeData> outData(PortIndex) override
         {

@@ -1,13 +1,3 @@
-/**
- * @file NodeImageBase.cpp
- * @author moth (QianMoth@qq.com)
- * @brief
- * @version 0.1
- * @date 2022-09-30
- *
- * @copyright Copyright (c) 2022
- *
- */
 #include "NodeDemo.hpp"
 
 #include <QFile>
@@ -22,8 +12,10 @@ namespace QtNodes
 
     TestNode::TestNode()
     {
+        /* input and output */
         OUT_PORT("pixmap", "pixmap")
 
+        /* widget */
         PARAM_FILE("load", "a")
         PARAM_BOOL("bool", true)
         PARAM_INT("threshold", -255, 255, 2364)
@@ -38,6 +30,7 @@ namespace QtNodes
         PARAM_DSLIDER("dslider", -0.8, 10.9, 6.5)
         PARAM_TEXT("text", "text")
     }
+
     void TestNode::init()
     {
         eButton *button = getParameter("button")->property("0").value<eButton *>();

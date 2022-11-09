@@ -2,7 +2,7 @@
  * @file PluginDefinition.h
  * @author moth (QianMoth@qq.com)
  * @brief 插件接口定义，基于qt插件
- * @version 0.1
+ * @version 0.0.1
  * @date 2022-11-08
  *
  * @copyright Copyright (c) 2022
@@ -14,7 +14,7 @@
 
 #include <QObject>
 
-#if defined(plugindemo_EXPORTS)
+#if defined(plugindemo_EXPORTS) // 这里需要和您的工程文件名一致${PROJECT_NAME}
 #define DLL_EXPORT Q_DECL_EXPORT
 #else
 #define DLL_EXPORT Q_DECL_IMPORT
@@ -51,6 +51,12 @@ public:
 
     // virtual std::list<FuncItem> getFuncsArray(){return _funcList;};
 
+    /**
+     * @~Chinese
+     * @brief node的注册函数
+     *
+     * @param reg
+     */
     void registerDataModels(std::shared_ptr<QtNodes::DataModelRegistry> &reg) override;
 
 public:

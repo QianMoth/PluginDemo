@@ -5,7 +5,7 @@
 
 #include <QDebug>
 
-#include "NodeDemo.hpp"
+#include "NodeDemo.hpp" // node头文件
 
 Plugin *Plugin::_this_plugin = NULL;
 
