@@ -12,11 +12,10 @@ namespace QtNodes
     {
         qInfo() << Q_FUNC_INFO;
         /* input and output */
-        IN_PORT("string", "string")
-        IN_PORT("string", "string")
-
-        OUT_PORT("string", "string")
-        OUT_PORT("string", "string")
+        IN_PORT("string", "string")  // in0
+        IN_PORT("string", "string")  // in1
+        OUT_PORT("string", "string") // out0
+        OUT_PORT("string", "string") // out1
 
         /* widget */
         // PARAM_FILE("load", "a")

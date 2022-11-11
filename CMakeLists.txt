@@ -84,6 +84,12 @@ target_link_libraries(${PROJECT_NAME}
         debug ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes2d.lib
         optimized ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes.lib
         optimized ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes2.lib
+
+        # debug D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Debug/nodesd.lib
+        # debug D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Debug/nodes2d.lib
+        # optimized D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Release/nodes.lib
+        # optimized D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Release/nodes2.lib
+
         Qt${QT_VERSION_MAJOR}::Widgets
 )
 

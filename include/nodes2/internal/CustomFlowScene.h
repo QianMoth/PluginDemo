@@ -15,16 +15,17 @@
 
 #include <nodes/DataModelRegistry>
 #include <nodes/FlowScene>
-#include <nodes/NodeDataModel>
+// #include <nodes/NodeDataModel>
 #include <nodes/Node>
 
 #include "CommentGraphicsItem.h"
-#include "BaseNode.h"
 
 #include "Export.hpp"
 
 namespace QtNodes
 {
+
+  class BaseNode;
 
   // empty graphic item used as parent container for comments items
   // 用作注释项的父容器的空图形项

@@ -13,14 +13,13 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
-#include <nodes/NodeData>
 #include <QObject>
 
 #include <variant>
 
-#include "Types.h"
+// #include "Types.h"
 #include "Color.h"
-#include "DataBase.hpp"
+#include "DataBase.h"
 
 #include "Export.hpp"
 
@@ -55,17 +54,16 @@ namespace QtNodes
         EPT_SLIDER,  // 整数滑块
         EPT_DSLIDER, // 浮点数滑块
 
-        EPT_STRING,     // 单行文本框
-        EPT_STRINGSHOW, // 不可编辑单行文本框
-        EPT_TEXT,       // 多行文本
-        EPT_TEXTSHOW,   // 不可编辑多行文本
-        EPT_FILE,       // 打开文件
-        EPT_FILESAVE,   // 保存文件
+        EPT_STRING,   // 单行文本框
+        EPT_TEXT,     // 多行文本
+        EPT_FILE,     // 打开文件
+        EPT_FILESAVE, // 保存文件
 
         EPT_IMAGE, // 图像显示
+
+        EPT_SHOWONLY = 0x02000000, // 表示该控件仅仅用于显示
     };
 
-    // TODO: OpenCV
     //  possible variant type for parameters
     typedef std::variant<double, int, bool, unsigned char,
                          eFXY, eFXYZ, eFXYZW,
@@ -77,7 +75,7 @@ namespace QtNodes
     {
         Q_OBJECT
     public:
-        ParamType type;
+        int type;     // ParamType
         QString name; // 参数名
         double min;   // 参数最小值
         double max;   // 参数最大值
@@ -89,12 +87,12 @@ namespace QtNodes
 
     public:
         Parameter();
-        Parameter(ParamType type, QString name, double min, double max, BaseNode *node);
+        Parameter(int type, QString name, double min, double max, BaseNode *node);
 
         // unsigned int getComponentCount();
         void setDescription(const QString &descr);
         const QString &getDescription() const;
-        ParamType getType();
+        int getType();
         double getMin() const;
         double getMax() const;
         BaseNode *getOwnerOp() const;
@@ -143,7 +141,8 @@ namespace QtNodes
         eColor getValueAsColor() const;
 
     Q_SIGNALS:
-        void parameterUpdated();
+        void parameterUpdated(); // 参数改变信号，可以和控件显示绑定
+        void widgetUpdated();
     };
 
 #endif // PARAMETER_H
