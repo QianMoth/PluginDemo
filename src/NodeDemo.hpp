@@ -14,6 +14,7 @@
 #include <string>
 
 #include <nodes2/BaseNode>
+#include <nodes2/Parameter>
 
 namespace QtNodes
 {
@@ -27,8 +28,14 @@ namespace QtNodes
         void onTestButtonClick();
 
     protected:
-        void init() override;
-        int process(const Parameter &param = Parameter()) override;
+        /**
+         * @brief initProcess
+         *
+         * @return true 执行process()
+         * @return false 不执行process()
+         */
+        bool initProcess() override;
+        void process(const Parameter &param) override;
 
     private:
         /**
@@ -37,14 +44,12 @@ namespace QtNodes
          * @return const QString
          */
         const QString Name() const override { return QString("NodeDemo"); }
-        std::shared_ptr<NodeData> outData(PortIndex) override
-        {
-            return std::make_shared<PixmapData>(_value);
-        }
-
         bool resizable() const override { return true; }
 
-        QPixmap _value; // 节点数据
+        std::shared_ptr<NodeData> outData(PortIndex portIndex) override;
+
+        QString _out0; // 节点数据
+        QString _out1; // 节点数据
     };
 
 }
