@@ -54,7 +54,7 @@ namespace QtNodes
              */
             if (&param == getParameter("button"))
             {
-                Q_EMIT dataUpdated(1);
+                setOutData(1);
                 return;
             }
 
@@ -65,7 +65,7 @@ namespace QtNodes
             {
                 getParameter("ss")->setValue(_input->_data);
             }
-            Q_EMIT dataUpdated(0);
+            setOutData(0);
             return;
         }
         catch (...)

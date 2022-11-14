@@ -25,7 +25,7 @@ Qt 5.15.2
 
 不要出现中文路径！
 
-```shell
+```bash
 git clone https://github.com/QianMoth/PluginDemo.git
 cd PluginDemo
 mkdir build
@@ -46,7 +46,7 @@ build结束你可以在./build/bin/文件夹下看到plugindemo.dll和plugindemo
 
 如果你是windows用户，在执行shell脚本需要考虑是否安装了能执行shell的工具，如git。
 
-```shell
+```bash
 #!/bin/bash
 
 cur_path=$(readlink -f "$(dirname "$0")")
@@ -55,6 +55,7 @@ echo $cur_path
 
 # 找到结尾有d的dll文件安装到Debug目录
 find $cur_path/build/bin/  -name "*d.dll" -exec cp {} $cur_path/../nodeeditor-p/build/bin/Debug/nodes/ \;
+
 # 找到结尾没有d的dll文件安装到Debug目录
 find $cur_path/build/bin/ ! -name "*d.dll" -a -name "*.dll" -exec cp {} $cur_path/../nodeeditor-p/build/bin/Release/nodes/ \;
 ```

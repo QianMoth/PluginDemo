@@ -65,14 +65,14 @@ namespace QtNodes
   public:
     BaseNode();
     virtual ~BaseNode();
-    void init();                                  // 初始化
-    virtual bool initProcess();                   // 可以重写的初始化
-    virtual void process(const Parameter &param); // return PortIndex
-    virtual bool resizable() const;               // 支持改变node大小
+    void init();                                  ///< 初始化
+    virtual bool initProcess();                   ///< 可以重写的初始化
+    virtual void process(const Parameter &param); ///< return PortIndex
+    virtual bool resizable() const;               ///< 支持改变node大小
 
-    size_t getParameterCount() const;                  // 控件计数
-    Parameter *getParameter(const unsigned int index); // 通过索引值获取控件
-    Parameter *getParameter(const QString name);       // 通过名字获取控件
+    size_t getParameterCount() const;                  ///< 控件计数
+    Parameter *getParameter(const unsigned int index); ///< 通过索引值获取控件
+    Parameter *getParameter(const QString name);       ///< 通过名字获取控件
 
     QJsonObject save() const;
     void restore(QJsonObject const &p);
@@ -89,6 +89,7 @@ namespace QtNodes
     QString portCaption(PortType portType, PortIndex portIndex) const;
     unsigned int nPorts(PortType portType) const;
     NodeDataType dataType(PortType portType, PortIndex portIndex) const;
+    bool setOutData(const PortIndex portIndex);
     void setInData(std::shared_ptr<NodeData> nodeData, PortIndex portIndex);
     virtual QWidget *embeddedWidget();
     void createParamWidgets();
