@@ -48,8 +48,8 @@ namespace QtNodes
 
         std::shared_ptr<NodeData> outData(PortIndex portIndex) override;
 
-        QString _out0; // 节点数据
-        QString _out1; // 节点数据
+        QString _out0; // 输出0
+        QString _out1; // 输出1
     };
 
 }
