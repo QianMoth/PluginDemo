@@ -14,14 +14,16 @@
 
 #include <QObject>
 
+#include "config.h"
+
 #if defined(plugindemo_EXPORTS) // 这里需要和您的工程文件名一致${PROJECT_NAME}
 #define DLL_EXPORT Q_DECL_EXPORT
 #else
 #define DLL_EXPORT Q_DECL_IMPORT
 #endif
 
-/* 在此定义您的插件名称，一个插件可以存在多个节点 */
-#define PLUGIN_NAME "PluginDemo"
+/* 插件名称，一个插件可以存在多个节点 */
+#define PLUGIN_NAME PROJECT_NAME PROJECT_VER
 
 class DLL_EXPORT Plugin : public QObject, public PluginInterface
 {
