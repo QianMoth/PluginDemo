@@ -132,6 +132,9 @@ namespace QtNodes
     typedef MyNodeData<double, CHAR_DOUBLE, CHAR_DOUBLE> DoubleData;
     typedef MyNodeData<bool, CHAR_BOOL, CHAR_BOOL> BoolData;
 
+    static char FXYZ_BOOL[20] = "vec3f";
+    typedef MyNodeData<std::vector<eFXYZ>, FXYZ_BOOL, FXYZ_BOOL> Vec3fData;
+
     /* Qt */
     static char CHAR_QSTRING[20] = "string";
     static char CHAR_QPIXMAP[20] = "pixmap";

@@ -2,16 +2,19 @@
 
 #include <nodes/FlowView>
 
-#include "CustomFlowScene.h"
 #include "Export.hpp"
 
 namespace QtNodes
 {
+    class CustomFlowScene;
+
     class FLOW_EDITOR_PUBLIC CustomFlowView : public FlowView
     {
         Q_OBJECT
+
     public:
-        CustomFlowView(QWidget *parent = Q_NULLPTR);
         CustomFlowView(CustomFlowScene *scene, QWidget *parent = Q_NULLPTR);
+        CustomFlowView(QWidget *parent = Q_NULLPTR);
+        ~CustomFlowView();
     };
 } // namespace QtNodes

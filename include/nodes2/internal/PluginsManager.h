@@ -11,8 +11,8 @@
 
 #include "Export.hpp"
 
-// #include <nodes/DataModelRegistry>
-class QtNodes::DataModelRegistry;
+#include <nodes/DataModelRegistry>
+// class QtNodes::DataModelRegistry;
 using QtNodes::DataModelRegistry;
 
 class QPluginLoader;

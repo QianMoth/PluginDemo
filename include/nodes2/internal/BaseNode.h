@@ -16,6 +16,8 @@
 #include <nodes/NodeDataModel>
 #include <nodes/NodeData>
 
+#include "Parameter.h"
+
 #include <QObject>
 #include <QString>
 
@@ -51,7 +53,7 @@ namespace QtNodes
   enum class NodeValidationState;
   using PortIndex = int;
 
-  class Parameter;
+  // class Parameter;
   class ParamWidget;
 
   /**
@@ -103,7 +105,7 @@ namespace QtNodes
     }
 
     template <class T>
-    std::shared_ptr<T> getInput(unsigned int portIndex)
+    std::shared_ptr<T> getInput(unsigned int portIndex) const
     {
       assert(portIndex < _inputs.size());
       assert(_inputs[portIndex]->name == T::metatype());
@@ -113,8 +115,8 @@ namespace QtNodes
     }
 
   protected:
-    std::vector<ePort *> _inputs;  // 输入接口集合
-    std::vector<ePort *> _outputs; // 输出接口集合
+    std::vector<ePort *> _inputs;  ///< 输入接口集合
+    std::vector<ePort *> _outputs; ///< 输出接口集合
     ParamWidget *_paramWidget;
     std::vector<Parameter *> _parameters;
 

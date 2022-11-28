@@ -73,9 +73,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 message(STATUS "QT_VERSION_MAJOR : " ${QT_VERSION_MAJOR})
 message(STATUS "QT_DIR : " ${QT_DIR})
 
-include_directories("D:/proj/NodeEditorAndPlugins/nodeeditor-p/include")
-include_directories("D:/proj/NodeEditorAndPlugins/nodeeditor-p/3rdparty/nodeeditor/include")
-# include_directories("./include/")
+# include_directories("D:/proj/NodeEditorAndPlugins/nodeeditor-p/include")
+# include_directories("D:/proj/NodeEditorAndPlugins/nodeeditor-p/3rdparty/nodeeditor/include")
+include_directories("./include/")
 
 file(GLOB_RECURSE CPP_SOURCE_FILES  src/*.cpp src/*.cxx src/*.cc)
 file(GLOB_RECURSE CPP_INCLUDE_FILES  src/*.hpp src/*.h)
@@ -97,15 +97,15 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE
-        # debug ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodesd.lib
-        # debug ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes2d.lib
-        # optimized ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes.lib
-        # optimized ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes2.lib
+        debug ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodesd.lib
+        debug ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes2d.lib
+        optimized ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes.lib
+        optimized ${CMAKE_CURRENT_SOURCE_DIR}/lib/nodes2.lib
 
-        debug D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Debug/nodesd.lib
-        debug D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Debug/nodes2d.lib
-        optimized D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Release/nodes.lib
-        optimized D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Release/nodes2.lib
+        # debug D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Debug/nodesd.lib
+        # debug D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Debug/nodes2d.lib
+        # optimized D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Release/nodes.lib
+        # optimized D:/proj/NodeEditorAndPlugins/nodeeditor-p/build/lib/Release/nodes2.lib
 
         Qt${QT_VERSION_MAJOR}::Widgets
 )
