@@ -1,6 +1,6 @@
 # 1. PLUGIN_DEMO
 [中文](./README.md) | [English](./README_EN.md)<br>
-> 这是一个插件的demo，也是测试用例。
+> This is a plug-in demo and a test case
 
 <!-- 目录 -->
 - [1. PLUGIN\_DEMO](#1-plugin_demo)
@@ -14,7 +14,7 @@
 
 ## 1.1. Overview
 
-插件的demo，罗列了各种控件
+Plug-in demo, some functions of the use of methods
 
 ## 1.2. Build & Install
 ### 1.2.1. Dependencies
@@ -22,8 +22,6 @@
 Qt 5.15.2
 
 ### 1.2.2. Build
-
-不要出现中文路径！
 
 ```bash
 git clone https://github.com/QianMoth/PluginDemo.git
@@ -40,36 +38,32 @@ cmake --build build --config Debug
 ```
 ### 1.2.3. Install
 
-build结束你可以在`./build/bin/`文件夹下看到`plugindemo.dll`和`plugindemod.dll`。
+You can see `plugindemo.dll` and `plugindemod.dll` in the `./build/bin/` folder.
 
-你可以直接复制粘贴到你的插件目录下,也可以通过修改**copyfile.sh**来安装到指定目录。
+You can either copy and paste it directly into your plugin directory or install it in a specific directory by modifying **copyfile.sh**.
 
-如果你是windows用户，在执行shell脚本需要考虑是否安装了能执行shell的工具，如**git**。
+If you are a windows user, you need to consider whether you have installed tools that can execute shell scripts, such as **git**.
 
 ```bash
 #!/bin/bash
 
 cur_path=$(readlink -f "$(dirname "$0")")
-# 打印当前文件路径
+# Prints the current file path
 echo $cur_path
 
-# 找到结尾有d的dll文件安装到Debug目录
+# Find the dll file with d at the end and install it in the Debug directory
 find $cur_path/build/bin/  -name "*d.dll" -exec cp {} $cur_path/../nodeeditor-p/build/bin/Debug/nodes/ \;
 
-# 找到结尾没有d的dll文件安装到Debug目录
+# Find the dll file without d at the end and install it into the Debug directory
 find $cur_path/build/bin/ ! -name "*d.dll" -a -name "*.dll" -exec cp {} $cur_path/../nodeeditor-p/build/bin/Release/nodes/ \;
 ```
 
 ## 1.3. Origin & References
-
-此项目在nodeeditor基础上，添加了spkgen的功能。
 
 - [nodeeditor](https://github.com/paceholder/nodeeditor.git)
 - [spkgen](https://github.com/fredakilla/spkgen.git)
 
 
 ## 1.4. Show
-
-node预览
 
 ![node](./pictures/node.png)

@@ -19,13 +19,30 @@
 
 namespace QtNodes
 {
+  /**
+   * @brief 颜色渐变
+   *
+   * @tparam T
+   * @param a
+   * @param b
+   * @param t
+   * @return T
+   */
   template <class T>
   T eLerp(const T &a, const T &b, double t)
   {
-    // 颜色渐变
     return a + (b - a) * t;
   }
 
+  /**
+   * @brief 位运算，获取指定位置上的二进制
+   *
+   * @tparam T
+   * @param t
+   * @param index
+   * @return true
+   * @return false
+   */
   template <class T>
   bool eGetBit(T t, uint32_t index)
   {
@@ -33,6 +50,13 @@ namespace QtNodes
     return ((t & (1 << index)) != 0);
   }
 
+  /**
+   * @brief 位运算，反转指定位置上的二进制
+   *
+   * @tparam T
+   * @param t
+   * @param index
+   */
   template <class T>
   void eToggleBit(T &t, uint32_t index)
   {

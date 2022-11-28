@@ -1,4 +1,4 @@
-#include "NodeDemo.hpp"
+#include "Node.hpp"
 
 #include <QFile>
 #include <QMessageBox>
@@ -10,13 +10,11 @@ namespace QtNodes
 
     TestNode::TestNode()
     {
-        qInfo() << Q_FUNC_INFO;
         /* input and output */
-        IN_PORT("string", "string")
-        IN_PORT("string", "string")
-
-        OUT_PORT("string", "string")
-        OUT_PORT("string", "string")
+        IN_PORT("string", "string")  // in0
+        IN_PORT("string", "string")  // in1
+        OUT_PORT("string", "string") // out0
+        OUT_PORT("string", "string") // out1
 
         /* widget */
         // PARAM_FILE("load", "a")
@@ -39,7 +37,7 @@ namespace QtNodes
 
     bool TestNode::initProcess()
     {
-        qInfo() << Q_FUNC_INFO;
+        qDebug();
         connect(getParameter("button"), &Parameter::widgetUpdated, this, &TestNode::onTestButtonClick);
 
         return true;
@@ -47,7 +45,7 @@ namespace QtNodes
 
     void TestNode::process(const Parameter &param)
     {
-        qInfo() << Q_FUNC_INFO;
+        qDebug();
         try
         {
             /**
@@ -55,7 +53,7 @@ namespace QtNodes
              */
             if (&param == getParameter("button"))
             {
-                Q_EMIT dataUpdated(1);
+                setOutData(1);
                 return;
             }
 
@@ -66,8 +64,7 @@ namespace QtNodes
             {
                 getParameter("ss")->setValue(_input->_data);
             }
-            Q_EMIT dataUpdated(0);
-            return;
+            this->setOutData(0);
         }
         catch (...)
         {
@@ -77,26 +74,24 @@ namespace QtNodes
 
     std::shared_ptr<NodeData> TestNode::outData(PortIndex portIndex)
     {
-        qInfo() << Q_FUNC_INFO << " portIndex : " << portIndex;
+        // qDebug() << "port(" << portIndex << ") out";
+
         switch (portIndex)
         {
         case 0:
             return std::make_shared<StringData>(_out0);
-            break;
         case 1:
             return std::make_shared<StringData>(_out1);
-            break;
         default:
             /* 不输出 */
             std::shared_ptr<NodeData> ptr;
             return ptr;
-            break;
         }
     }
 
     void TestNode::onTestButtonClick()
     {
-        qInfo() << Q_FUNC_INFO;
+        qDebug();
         static int a = 1;
         switch (a)
         {

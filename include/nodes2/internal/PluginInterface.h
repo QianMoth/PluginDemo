@@ -48,8 +48,8 @@ public:
     virtual std::list<FuncItem> getFuncsArray() { return _funcList; };
     virtual void registerDataModels(std::shared_ptr<QtNodes::DataModelRegistry> &reg) = 0;
 
-    virtual void recvMessage(PluginMessageData) = 0; //接收到来自创建管理器的消息
-    virtual void sendMessage(PluginMessageData) = 0; //给插件管理器发消息
+    virtual void recvMessage(PluginMessageData) = 0; ///< 接收到来自创建管理器的消息
+    virtual void sendMessage(PluginMessageData) = 0; ///< 给插件管理器发消息
 
 protected:
     std::list<FuncItem> _funcList;

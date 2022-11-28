@@ -10,14 +10,20 @@
  */
 #pragma once
 
-#include <nodes/NodeDataModel>
-// #include <opencv2/opencv.hpp>
+#include <nodes/NodeData>
+
 #include <iostream>
+
+#include <QPixmap>
+#include <QString>
 
 #include "Export.hpp"
 
 namespace QtNodes
 {
+
+    // class NodeData;
+    // struct NodeDataType;
 
 #pragma region /* 多数据 */
     template <typename T>
@@ -96,8 +102,8 @@ namespace QtNodes
     public:
         MyNodeData() {}
         MyNodeData(T const &data) : _data(data) {}
-        NodeDataType type() const override { return _type; }
-        static QString metatype() { return _type.name; }
+        NodeDataType type() const override { return _type; };
+        static QString metatype() { return _type.name; };
         T _data;
 
     private:
@@ -119,13 +125,21 @@ namespace QtNodes
     static char CHAR_INT[20] = "int";
     static char CHAR_DOUBLE[20] = "double";
     static char CHAR_BOOL[20] = "bool";
+    // template class MyNodeData<int, CHAR_INT, CHAR_INT>;
+    // template class MyNodeData<double, CHAR_DOUBLE, CHAR_DOUBLE>;
+    // template class MyNodeData<bool, CHAR_BOOL, CHAR_BOOL>;
     typedef MyNodeData<int, CHAR_INT, CHAR_INT> IntData;
     typedef MyNodeData<double, CHAR_DOUBLE, CHAR_DOUBLE> DoubleData;
     typedef MyNodeData<bool, CHAR_BOOL, CHAR_BOOL> BoolData;
 
+    static char FXYZ_BOOL[20] = "vec3f";
+    typedef MyNodeData<std::vector<eFXYZ>, FXYZ_BOOL, FXYZ_BOOL> Vec3fData;
+
     /* Qt */
-    static char CHAR_QSTRING[20] = "double";
+    static char CHAR_QSTRING[20] = "string";
     static char CHAR_QPIXMAP[20] = "pixmap";
+    // template class MyNodeData<QString, CHAR_QSTRING, CHAR_QSTRING>;
+    // template class MyNodeData<QPixmap, CHAR_QPIXMAP, CHAR_QPIXMAP>;
     typedef MyNodeData<QString, CHAR_QSTRING, CHAR_QSTRING> StringData;
     typedef MyNodeData<QPixmap, CHAR_QPIXMAP, CHAR_QPIXMAP> PixmapData;
 

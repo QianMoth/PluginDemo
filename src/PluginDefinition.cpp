@@ -5,7 +5,7 @@
 
 #include <QDebug>
 
-#include "NodeDemo.hpp" // node头文件
+#include "Node.hpp" // node头文件
 
 Plugin *Plugin::_this_plugin = NULL;
 
@@ -17,7 +17,7 @@ Plugin::Plugin()
 
 void Plugin::setInfo()
 {
-    qInfo(Q_FUNC_INFO);
+    qDebug();
 
     commandMenuInit();
 }
@@ -32,7 +32,7 @@ void Plugin::registerDataModels(std::shared_ptr<QtNodes::DataModelRegistry> &reg
 
 void Plugin::commandMenuInit()
 {
-    qInfo(Q_FUNC_INFO);
+    qDebug();
 
     setCommand("Hello Plugin", hello, ShortcutKey(), true);
     setCommand(""); // add a separator
@@ -67,7 +67,7 @@ void Plugin::recvMessage(PluginMessageData)
  */
 void Plugin::hello(bool checked = false)
 {
-    qInfo(Q_FUNC_INFO);
+    qDebug();
 
     PluginMessageData m;
     m.dest = "Plugin02";
@@ -84,7 +84,7 @@ void Plugin::hello(bool checked = false)
 
 void Plugin::insertCurrentFullPath(bool /* checked */)
 {
-    qInfo(Q_FUNC_INFO);
+    qDebug();
 
     std::cout << "insertCurrentFullPath" << std::endl;
 }

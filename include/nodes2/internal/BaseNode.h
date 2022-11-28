@@ -13,16 +13,21 @@
  */
 #pragma once
 
-#include "ParamWidget.h"
-#include "Parameter.h"
-#include "Types.h"
-#include "DataBase.hpp"
 #include <nodes/NodeDataModel>
+#include <nodes/NodeData>
+
+#include "Parameter.h"
+
+#include <QObject>
+#include <QString>
 
 #include "Export.hpp"
 
 namespace QtNodes
 {
+
+  enum class PortType;
+
   /**
    * @brief 输入输出接口
    *
@@ -43,6 +48,86 @@ namespace QtNodes
     }
   };
 
+  class NodeDataModel;
+
+  enum class NodeValidationState;
+  using PortIndex = int;
+
+  // class Parameter;
+  class ParamWidget;
+
+  /**
+   * @brief 所有node的基础类
+   *
+   */
+  class FLOW_EDITOR_PUBLIC BaseNode : public NodeDataModel
+  {
+    // Q_OBJECT
+
+  public:
+    BaseNode();
+    virtual ~BaseNode();
+    void init();                                  ///< 初始化
+    virtual bool initProcess();                   ///< 可以重写的初始化
+    virtual void process(const Parameter &param); ///< return PortIndex
+    virtual bool resizable() const;               ///< 支持改变node大小
+
+    size_t getParameterCount() const;                  ///< 控件计数
+    Parameter *getParameter(const unsigned int index); ///< 通过索引值获取控件
+    Parameter *getParameter(const QString name);       ///< 通过名字获取控件
+
+    QJsonObject save() const;
+    void restore(QJsonObject const &p);
+
+  public Q_SLOTS:
+    virtual void onParameterChanged(const Parameter &param);
+
+  protected:
+    virtual const QString Name() const = 0;
+    QString name() const;
+    QString caption() const;
+    virtual bool captionVisible() const;
+    virtual bool portCaptionVisible(PortType, PortIndex) const;
+    QString portCaption(PortType portType, PortIndex portIndex) const;
+    unsigned int nPorts(PortType portType) const;
+    NodeDataType dataType(PortType portType, PortIndex portIndex) const;
+    bool setOutData(const PortIndex portIndex);
+    void setInData(std::shared_ptr<NodeData> nodeData, PortIndex portIndex);
+    virtual QWidget *embeddedWidget();
+    void createParamWidgets();
+
+    template <typename T>
+    void addParameter(int type, QString name, double min, double max, T value)
+    {
+      Parameter *p = new Parameter(type, name, min, max, this);
+      p->baseValue = (T)value;
+      _parameters.push_back(p);
+    }
+
+    template <class T>
+    std::shared_ptr<T> getInput(unsigned int portIndex) const
+    {
+      assert(portIndex < _inputs.size());
+      assert(_inputs[portIndex]->name == T::metatype());
+      std::shared_ptr<T> ptr =
+          std::dynamic_pointer_cast<T>(_inputs[portIndex]->data);
+      return ptr;
+    }
+
+  protected:
+    std::vector<ePort *> _inputs;  ///< 输入接口集合
+    std::vector<ePort *> _outputs; ///< 输出接口集合
+    ParamWidget *_paramWidget;
+    std::vector<Parameter *> _parameters;
+
+  protected:
+    NodeValidationState modelValidationState; // NodeValidationState::Valid;
+    QString modelValidationError = QString("ok");
+    NodeValidationState validationState() const;
+    QString validationMessage() const;
+    void setValidationState(NodeValidationState state, const QString &msg = "");
+  };
+
 #pragma region /* 添加输入输出接口 */
 
 #define IN_PORT(dataid, dataname) \
@@ -51,18 +136,21 @@ namespace QtNodes
 #define OUT_PORT(dataid, dataname) \
   _outputs.push_back(new QtNodes::ePort(PortType::Out, QString(dataid), QString(dataname)));
 
-#pragma endregion
+#pragma endregion /* 添加输入输出接口 */
 
 #pragma region /* 添加自定义参数,对应生成控件 */
 
 #define PARAM_TEXT(name, label) \
   addParameter<QString>(QtNodes::EPT_TEXT, name, 0, 0, QString(label));
 
+#define PARAM_TEXTSHOW(name, label) \
+  addParameter<QString>(QtNodes::EPT_TEXT | QtNodes::EPT_SHOWONLY, name, 0, 0, QString(label));
+
 #define PARAM_STRING(name, label) \
   addParameter<QString>(QtNodes::EPT_STRING, name, 0, 0, QString(label));
 
 #define PARAM_STRINGSHOW(name, label) \
-  addParameter<QString>(QtNodes::EPT_STRINGSHOW, name, 0, 0, QString(label));
+  addParameter<QString>(QtNodes::EPT_STRING | QtNodes::EPT_SHOWONLY, name, 0, 0, QString(label));
 
 /* 打开文件 */
 #define PARAM_FILE(name, path) \
@@ -86,6 +174,9 @@ namespace QtNodes
 
 #define PARAM_INT(name, min, max, v) \
   addParameter<int>(QtNodes::EPT_INT, name, min, max, (int)v);
+
+#define PARAM_INTSHOW(name, min, max, v) \
+  addParameter<int>(QtNodes::EPT_INT | QtNodes::EPT_SHOWONLY, name, min, max, (int)v);
 
 #define PARAM_IXY(name, min, max, x, y) \
   addParameter<QtNodes::eIXY>(QtNodes::EPT_IXY, name, min, max, QtNodes::eIXY((int)x, (int)y));
@@ -129,102 +220,5 @@ namespace QtNodes
   addParameter<QPixmap>(QtNodes::EPT_IMAGE, name, 0, 0, QPixmap(pixmap));
 
 #pragma endregion
-
-  /**
-   * @brief 所有node的基础类
-   *
-   */
-  class FLOW_EDITOR_PUBLIC BaseNode : public NodeDataModel
-  {
-    Q_OBJECT
-
-  public:
-    BaseNode();
-    virtual ~BaseNode();
-    virtual void init() { process(); }
-    virtual int process(const Parameter &param = Parameter()) { return 0; }
-    virtual bool resizable() const override { return false; } // 支持改变node大小
-
-    size_t getParameterCount() const;                  // 控件计数
-    Parameter *getParameter(const unsigned int index); // 通过索引值获取控件
-    Parameter *getParameter(const QString name);       // 通过名字获取控件
-
-  protected:
-    virtual const QString Name() const = 0;
-    QString name() const override { return Name(); }
-    QString caption() const override { return Name(); }
-    virtual bool captionVisible() const override { return true; }
-    virtual bool portCaptionVisible(PortType, PortIndex) const override
-    {
-      return true;
-    }
-    QString portCaption(PortType portType, PortIndex portIndex) const override;
-    unsigned int nPorts(PortType portType) const override;
-    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
-    void setInData(std::shared_ptr<NodeData> nodeData, PortIndex portIndex) override;
-    virtual QWidget *embeddedWidget() override { return _paramWidget; }
-    void createParamWidgets() { _paramWidget = new ParamWidget(this); }
-
-    template <typename T>
-    void addParameter(ParamType type, QString name, double min, double max, T value)
-    {
-      Parameter *p = new Parameter(type, name, min, max, this);
-      p->baseValue = (T)value;
-      _parameters.push_back(p);
-    }
-
-    template <class T>
-    std::shared_ptr<T> getInput(unsigned int portIndex)
-    {
-      assert(portIndex < _inputs.size());
-      assert(_inputs[portIndex]->name == T::metatype());
-      std::shared_ptr<T> ptr =
-          std::dynamic_pointer_cast<T>(_inputs[portIndex]->data);
-      return ptr;
-    }
-
-  protected:
-    std::vector<ePort *> _inputs;  // 输入接口集合
-    std::vector<ePort *> _outputs; // 输出接口集合
-    ParamWidget *_paramWidget;
-    std::vector<Parameter *> _parameters;
-
-  protected:
-    NodeValidationState modelValidationState = NodeValidationState::Valid;
-    QString modelValidationError = QString("ok");
-    NodeValidationState validationState() const override;
-    QString validationMessage() const override;
-    void setValidationState(NodeValidationState state, const QString &msg = "")
-    {
-      modelValidationState = state;
-      modelValidationError = msg;
-    }
-
-    QJsonObject save() const override
-    {
-      QJsonObject modelJson = NodeDataModel::save();
-
-      if (_paramWidget)
-        _paramWidget->save(modelJson);
-
-      return modelJson;
-    }
-
-  public:
-    void restore(QJsonObject const &p) override
-    {
-      if (_paramWidget)
-        _paramWidget->restore(p);
-    }
-
-  public Q_SLOTS:
-    virtual void onParameterChanged(const Parameter &param)
-    {
-      if (process(param) == 0)
-      {
-        Q_EMIT dataUpdated(0);
-      }
-    }
-  };
 
 } // QtNodes

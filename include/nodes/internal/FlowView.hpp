@@ -7,63 +7,76 @@
 namespace QtNodes
 {
 
-class FlowScene;
+  class FlowScene;
 
-class NODE_EDITOR_PUBLIC FlowView
-  : public QGraphicsView
-{
-  Q_OBJECT
-public:
+  class NODE_EDITOR_PUBLIC FlowView
+      : public QGraphicsView
+  {
+    Q_OBJECT
+  public:
+    FlowView(QWidget *parent = Q_NULLPTR);
+    FlowView(FlowScene *scene, QWidget *parent = Q_NULLPTR);
 
-  FlowView(QWidget *parent = Q_NULLPTR);
-  FlowView(FlowScene *scene, QWidget *parent = Q_NULLPTR);
+    FlowView(const FlowView &) = delete;
+    FlowView operator=(const FlowView &) = delete;
 
-  FlowView(const FlowView&) = delete;
-  FlowView operator=(const FlowView&) = delete;
+    QAction *clearSelectionAction() const;
 
-  QAction* clearSelectionAction() const;
+    QAction *deleteSelectionAction() const;
 
-  QAction* deleteSelectionAction() const;
+    QAction *copySelectionAction() const;
 
-  void setScene(FlowScene *scene);
+    QAction *pasteSelectionAction() const;
 
-public Q_SLOTS:
+    QAction *cutSelectionAction() const;
 
-  void scaleUp();
+    void setScene(FlowScene *scene);
 
-  void scaleDown();
+  public Q_SLOTS:
 
-  void deleteSelectedNodes();
+    void scaleUp();
 
-protected:
+    void scaleDown();
 
-  void contextMenuEvent(QContextMenuEvent *event) override;
+    void deleteSelectedNodes();
 
-  void wheelEvent(QWheelEvent *event) override;
+    void copySelectedNodes();
 
-  void keyPressEvent(QKeyEvent *event) override;
+    void pasteSelectedNodes();
 
-  void keyReleaseEvent(QKeyEvent *event) override;
+    void cutSelectedNodes();
 
-  void mousePressEvent(QMouseEvent *event) override;
+  protected:
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
-  void mouseMoveEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
-  void drawBackground(QPainter* painter, const QRectF& r) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
-  void showEvent(QShowEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
-protected:
+    void mousePressEvent(QMouseEvent *event) override;
 
-  FlowScene * scene();
+    void mouseMoveEvent(QMouseEvent *event) override;
 
-private:
+    void drawBackground(QPainter *painter, const QRectF &r) override;
 
-  QAction* _clearSelectionAction;
-  QAction* _deleteSelectionAction;
+    void showEvent(QShowEvent *event) override;
 
-  QPointF _clickPos;
+  protected:
+    FlowScene *scene();
 
-  FlowScene* _scene;
-};
+  private:
+    QAction *_clearSelectionAction = Q_NULLPTR;
+    QAction *_deleteSelectionAction = Q_NULLPTR;
+    QAction *_copySelectionAction = Q_NULLPTR;
+    QAction *_pasteSelectionAction = Q_NULLPTR;
+    QAction *_cutSelectionAction = Q_NULLPTR;
+    QAction *_undoAction = Q_NULLPTR;
+    QAction *_redoAction = Q_NULLPTR;
+
+    QPointF _clickPos;
+
+    FlowScene *_scene = Q_NULLPTR;
+  };
 }
