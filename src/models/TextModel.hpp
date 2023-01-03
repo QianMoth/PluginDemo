@@ -1,13 +1,3 @@
-/**
- * @file TextModel.hpp
- * @author moth (QianMoth@qq.com)
- * @brief string
- * @version 1.0.0
- * @date 2022-12-16
- *
- * @copyright Copyright (c) 2022
- *
- */
 #pragma once
 
 #include <QGridLayout>

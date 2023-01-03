@@ -1,13 +1,3 @@
-/**
- * @file PluginDefinition.h
- * @author moth (QianMoth@qq.com)
- * @brief 插件接口定义，基于qt插件
- * @version 0.1
- * @date 2022-11-08
- *
- * @copyright Copyright (c) 2022
- *
- */
 #pragma once
 
 #include "config.h"

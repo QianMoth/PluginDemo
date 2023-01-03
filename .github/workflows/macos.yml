@@ -1,0 +1,80 @@
+name: MacOS
+on:
+  # push代码时触发workflow
+  push:
+    branches:
+      - master
+      - main
+    tags:
+      - "*"
+    # 忽略README.md
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+      - 'Doxyfile.in'
+      - '.clang-format'
+      - '.git*'
+      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/windows.yml'
+      - 'scripts/windows*'
+  # pull_request时触发workflow
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+      - 'Doxyfile.in'
+      - '.clang-format'
+      - '.git*'
+      - '.github/workflows/ubuntu.yml'
+      - '.github/workflows/windows.yml'
+      - 'scripts/windows*'
+
+jobs:
+  build:
+    name: CI
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+        qt_version: [5.15.2,6.3.0]
+        qt_arch: [clang_64]
+        build_type: [Release]
+    env:
+      targetName: exedemo
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      # macos 11.0 默认环境变了,要指定
+      - name: prepare env
+        if: ${{ matrix.os == 'macos-11.0' }}
+        run: |
+          softwareupdate --all --install --force
+          sudo xcode-select --print-path
+          sudo xcode-select --switch /Library/Developer/CommandLineTools   
+
+      # 安装Qt
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ matrix.qt_version }}
+          modules: ${{ matrix.modules }}
+
+      - uses: actions/setup-node@v1
+        if: matrix.platform == 'macos-latest'
+        with:
+          node-version: "12.x"
+      - run: npm install -g appdmg
+        if: matrix.platform == 'macos-latest'
+
+      # build
+      - name: ${{ matrix.os }} - ${{ matrix.qt_versionsion }} - Generate Dependencies and Build
+        shell: bash
+        env:
+          PKG_CONFIG_PATH: /usr/local/opt/openssl@1.1/lib/pkgconfig
+        run: |
+          cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DDS_STORE_SCRIPT=ON
+          cmake --build build --config ${{ matrix.build_type }} --parallel $(sysctl -n hw.logicalcpu)
