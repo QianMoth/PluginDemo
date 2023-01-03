@@ -1,29 +1,30 @@
-# 1. PLUGIN_DEMO
-[中文](./README.md) | [English](./README_EN.md)<br>
-> 这是一个插件的demo，也是测试用例。
+<h1 align="center" style="text-transform:uppercase;">PLUGIN_TCP</h1>
 
 <!-- 目录 -->
-- [1. PLUGIN\_DEMO](#1-plugin_demo)
-  - [1.1. Overview](#11-overview)
-  - [1.2. Build \& Install](#12-build--install)
-    - [1.2.1. Dependencies](#121-dependencies)
-    - [1.2.2. Build](#122-build)
-    - [1.2.3. Install](#123-install)
-  - [1.3. Origin \& References](#13-origin--references)
-  - [1.4. Show](#14-show)
+# Contents
+- [Contents](#contents)
+- [Overview](#overview)
+- [Build & Install](#build--install)
+  - [Dependencies](#dependencies)
+  - [Build](#build)
+  - [Install](#install)
+- [Origin & References](#origin--references)
+- [Show](#show)
 
-## 1.1. Overview
+# Overview
 
-插件的demo，罗列了各种控件
+通讯插件
 
-## 1.2. Build & Install
-### 1.2.1. Dependencies
+包含tcp服务端, tcp客户端, udp, 串口.
+
+# Build & Install
+## Dependencies
 
 Qt 5.15.2
 
-### 1.2.2. Build
+## Build
 
-不要出现中文路径！
+> 不要出现中文路径！
 
 ```bash
 git clone https://github.com/QianMoth/PluginDemo.git
@@ -38,13 +39,13 @@ cmake --build build --config Release
 cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --config Debug
 ```
-### 1.2.3. Install
+## Install
 
-build结束你可以在`./build/bin/`文件夹下看到`plugindemo.dll`和`plugindemod.dll`。
+build结束你可以在./build/bin/文件夹下看到plugindemo.dll和plugindemod.dll。
 
-你可以直接复制粘贴到你的插件目录下,也可以通过修改**copyfile.sh**来安装到指定目录。
+你可以直接复制粘贴到你的插件目录下,也可以通过修改copyfile.sh来安装到指定目录。
 
-如果你是windows用户，在执行shell脚本需要考虑是否安装了能执行shell的工具，如**git**。
+如果你是windows用户，在执行shell脚本需要考虑是否安装了能执行shell的工具，如git。
 
 ```bash
 #!/bin/bash
@@ -60,7 +61,7 @@ find $cur_path/build/bin/  -name "*d.dll" -exec cp {} $cur_path/../nodeeditor-p/
 find $cur_path/build/bin/ ! -name "*d.dll" -a -name "*.dll" -exec cp {} $cur_path/../nodeeditor-p/build/bin/Release/nodes/ \;
 ```
 
-## 1.3. Origin & References
+# Origin & References
 
 此项目在nodeeditor基础上，添加了spkgen的功能。
 
@@ -68,8 +69,6 @@ find $cur_path/build/bin/ ! -name "*d.dll" -a -name "*.dll" -exec cp {} $cur_pat
 - [spkgen](https://github.com/fredakilla/spkgen.git)
 
 
-## 1.4. Show
+# Show
 
 node预览
-
-![node](./pictures/node.png)
